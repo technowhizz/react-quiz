@@ -1,8 +1,35 @@
 * {
     box-sizing: border-box;
-    font-family: 'Poppins',sans-serif;
+    font-family: 'Karla',sans-serif;
 }
 
 body {
     margin: 0;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin:0px;
+    height: 100vh;
+    background-color: #F5F7FB;
+    background-image: url("../images/blob1.png"), url("../images/blob2.png");
+    background-repeat: no-repeat;
+    background-position: right -50px top -50px, left bottom ;
+    background-size: 300px auto;
+}
+
+.app--container{
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+}
+
+h1 {
+    margin-top: 0px;
 }

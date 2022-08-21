@@ -4,8 +4,10 @@ import Nav from "./components/Nav"
 export default function App(){
     return(
         <div className="app">
-            <Nav />
-            <h1>Test App</h1>
+            <div className="app--container">
+                <h1>My Quiz</h1>
+            </div>
         </div>
     )
 }
+
