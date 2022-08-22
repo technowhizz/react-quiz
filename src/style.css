@@ -8,9 +8,16 @@ p {
     font-family: 'Inter',sans-serif;
 }
 
-h1 {
+h1, h2 {
     margin: 0px;
 }
+
+
+hr {
+    margin-left: 0;
+    margin-right: 0;
+    max-width: 600px;
+  }
 
 body {
     margin: 0;
@@ -22,29 +29,20 @@ body {
     justify-content: center;
     align-items: center;
     margin:0px;
-    height: 100vh;
+    min-height: 100vh;
+    max-height: min-content;
     background-color: #F5F7FB;
     background-image: url("../images/blob1.png"), url("../images/blob2.png");
     background-repeat: no-repeat;
     background-position: right -50px top -50px, left bottom ;
     background-size: 300px auto;
-    
-
+    background-attachment: fixed;
 }
 
 .quizmode {
     animation: movebg 1s linear;
     -webkit-animation: movebg 1s linear;
     background-position: right -125px top -125px, left -100px bottom -100px ;
-}
-
-@keyframes movebg {
-    from {background-position: right -50px top -50px, left bottom ;} 
-    to {background-position: right -125px top -125px, left -100px bottom -100px !important;}
-}
-@-webkit-keyframes movebg {
-    from {background-position: right -50px top -50px, left bottom ;} 
-    to {background-position: right -125px top -125px, left -100px bottom -100px !important;}
 }
 
 .welcome{
@@ -81,3 +79,61 @@ body {
     box-shadow: inset 0px 0px 10px #c1c1c1;
 }
 
+.question{
+    min-width: max-content;
+    max-width: 98vw;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.question--text{
+    color: #293264;
+}
+
+.question--answers{
+    display: flex;
+    gap: 50px
+}
+
+.question--answer-button{
+    transition: all 0.3s ease;
+    padding: 8px 20px;
+    font-family: 'Inter',sans-serif;
+    font-weight: 500;
+    min-width: 80px;
+    background-color: transparent;
+    border: 2px solid #4D5B9E;
+    border-radius: 10px;
+    color: #293264;
+}
+
+.question--answer-button:hover{
+    border-color: #D6DBF5;
+    background-color: #D6DBF5;
+    transition: all 0.3s ease ;
+}
+
+.question--answer-button:active{
+    transition: all 0s;
+    border-color: #677bec;
+    background-color: #677bec;
+}
+
+.button-selected{
+    transition: all 0s ease 0.3s;
+    border-color: #D6DBF5;
+    background-color: #D6DBF5;
+}
+
+
+
+@keyframes movebg {
+    from {background-position: right -50px top -50px, left bottom ;} 
+    to {background-position: right -125px top -125px, left -100px bottom -100px !important;}
+}
+
+@-webkit-keyframes movebg {
+    from {background-position: right -50px top -50px, left bottom ;} 
+    to {background-position: right -125px top -125px, left -100px bottom -100px !important;}
+}
