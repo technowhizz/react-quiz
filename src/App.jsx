@@ -10,6 +10,7 @@ export default function App(){
     const [questions, setQuestions] = React.useState()
     const [questionObjects, setQuestionObjects] = React.useState()
     const [questionElements, setQuestionElements] = React.useState()
+    const [score, setScore] = React.useState(0)
 
 
     React.useEffect(() => {
@@ -23,31 +24,21 @@ export default function App(){
             const questionsArray = questions.map(obj => {
                 const correctAnswer = he.decode(obj.correct_answer)
                 const incorrectAnswers = obj.incorrect_answers.map(x => he.decode(x))
-                const answers = [correctAnswer, ...incorrectAnswers]
+                let answers = [correctAnswer, ...incorrectAnswers]
+                answers = shuffle(answers)
                 const id = nanoid()
                 const questionObj = {
                     id: id,
                     click: handleClick,
                     question: he.decode(obj.question),
                     answer: correctAnswer,
-                    answers: [
-                        {
-                            value: answers[0],
-                            isSelected: false
-                        },
-                        {
-                            value: answers[1],
-                            isSelected: false
-                        },
-                        {
-                            value: answers[2],
-                            isSelected: false
-                        },
-                        {
-                            value: answers[3],
-                            isSelected: false
-                        }
-                    ]
+                    answers: answers.map((item)=>{
+                        return({
+                            value: item,
+                            isSelected: false,
+                            isCorrect: false
+                        })
+                    })
                 }
                 return(questionObj)
                 
@@ -95,13 +86,46 @@ export default function App(){
             })
             return newQuestionObjs
         })
-        
-    
-
     }
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+          let j = Math.floor(Math.random() * (i + 1));
+          [array[i], array[j]] = [array[j], array[i]];
+        }
+        return (array)
+      }
 
     function startClick(){
         setWelcome(false)
+    }
+
+    function checkAnswers(){
+        setQuestionObjects(oldObjs => {
+            let count = 0
+            const newObjs = oldObjs.map((obj)=> {
+                const newAnswers = obj.answers.map(ans=>{
+                    if(ans.value === obj.answer){
+                        count ++
+                        return({
+                            ...ans,
+                            isCorrect: true
+                        })
+                    }else{
+                        return({...ans})
+                    }
+                })
+                return({
+                    ...obj,
+                    answers: newAnswers,
+                    over: true
+                })
+
+           })
+           console.log(count)
+           setScore(count)
+           return(newObjs)
+        })
     }
 
     return(
@@ -109,6 +133,7 @@ export default function App(){
             <div className="app--container">
                 {welcome && <Welcome click={startClick} />}
                 {!welcome && questionElements}
+                {!welcome && <button onClick={checkAnswers}>Submit</button>}
 
             </div>
         </div>

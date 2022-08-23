@@ -1,23 +1,23 @@
 import React from "react"
 
 export default function Question(props){
-    const {answer, answers, question, click, id} = {...props.data}
+    const {answer, answers, question, click, id, over} = {...props.data}
     return(
         <div className="question">
             <h2 className="question--text">{question}</h2>
             <div className="question--answers">
-                <button className={`question--answer-button${answers[0].isSelected?" answer-selected":""}`} id={0} onClick={(event) => click(event, id)}>
-                    {answers[0].value}
+                {answers.map((ans, index) =>{
+                    return(
+                    <button 
+                        key={index} 
+                        className={`question--answer-button${ans.isSelected?" answer-selected":""}${over?ans.isSelected && !ans.isCorrect?" answer-wrong": ans.isCorrect?" answer-correct":" answer-not-selected":""}`} 
+                        id={index} 
+                        onClick={(event) => click(event, id)}
+                    >
+                    {ans.value}
                 </button>
-                <button className={`question--answer-button${answers[1].isSelected?" answer-selected":""}`} id={1} onClick={(event) => click(event, id)}>
-                    {answers[1].value}
-                </button>
-                <button className={`question--answer-button${answers[2].isSelected?" answer-selected":""}`} id={2} onClick={(event) => click(event, id)}>
-                    {answers[2].value}
-                </button>
-                <button className={`question--answer-button${answers[3].isSelected?" answer-selected":""}`} id={3} onClick={(event) => click(event, id)}>
-                    {answers[3].value}
-                </button>
+                )
+                })}
             </div>
             <hr className="question--hr" />
         </div>

@@ -132,9 +132,21 @@ body {
 }
 
 .answer-selected{
-    transition: all 0s ease 0.3s;
+    transition: all 0s ease;
     border-color: #D6DBF5;
     background-color: #D6DBF5;
+}
+
+.answer-correct{
+    transition: all 1s ease 1s;
+    background-color: #94D7A2 !important;
+    border-color: #94D7A2 !important;
+}
+
+.answer-wrong{
+    transition: all 1s ease;
+    background-color: #F8BCBC;
+    border-color: #F8BCBC;
 }
 
 @keyframes movebg {
