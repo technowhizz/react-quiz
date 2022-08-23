@@ -145,8 +145,8 @@ body {
 
 .answer-wrong{
     transition: all 1s ease;
-    background-color: #F8BCBC;
-    border-color: #F8BCBC;
+    background-color: #F8BCBC !important;
+    border-color: #F8BCBC !important;
 }
 
 @keyframes movebg {
