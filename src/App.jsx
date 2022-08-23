@@ -3,6 +3,7 @@ import Welcome from "./components/Welcome"
 import Question from "./components/Question"
 import he from "he"
 import { nanoid } from "nanoid"
+import ReactConfetti from "react-confetti"
 
 export default function App(){
 
@@ -12,13 +13,14 @@ export default function App(){
     const [questionElements, setQuestionElements] = React.useState()
     const [score, setScore] = React.useState(0)
     const [over, setOver] = React.useState(false)
+    const [resetVal, setResetVal] = React.useState(false)
 
 
     React.useEffect(() => {
         fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
             .then(response => response.json())
             .then(responseData => setQuestions(responseData.results))
-    }, [])
+    }, [resetVal])
 
     React.useEffect(() => {
         if (questions !== undefined){
@@ -44,6 +46,7 @@ export default function App(){
                 return(questionObj)
                 
             })
+            console.log(questionsArray)
             setQuestionObjects(questionsArray)
         } 
     }, [questions])
@@ -126,14 +129,15 @@ export default function App(){
                 })
 
            })
-           console.log(count)
            setScore(count)
            return(newObjs)
         })
     }
 
     function reset(){
-        
+        setOver(false)
+        setScore(0)
+        setResetVal(old => !old)
     }
 
     return(
@@ -143,6 +147,7 @@ export default function App(){
                 {!welcome && questionElements}
                 {!welcome && !over && <button className="app--submit" onClick={checkAnswers}>Check Answers</button>}
                 {!welcome && over && <div className="app--score-button-container">
+                    {score === 5? <ReactConfetti/>:null}
                     <h3 className="app--score-text">{`You scored ${score}/5 correct answers`}</h3>
                     <button className="app--start-again" onClick={reset}>Play Again</button>
                     </div>}
