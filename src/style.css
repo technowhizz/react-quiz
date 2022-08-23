@@ -16,7 +16,6 @@ h1, h2 {
 hr {
     margin-left: 0;
     margin-right: 0;
-    max-width: 600px;
   }
 
 body {
@@ -24,7 +23,9 @@ body {
 }
 
 .app {
+    min-width: max-content;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -37,6 +38,12 @@ body {
     background-position: right -50px top -50px, left bottom ;
     background-size: 300px auto;
     background-attachment: fixed;
+}
+
+.app--container{
+    max-width: 100%;
+    padding: 20px;
+   
 }
 
 .quizmode {
@@ -80,20 +87,23 @@ body {
 }
 
 .question{
-    min-width: max-content;
+    width: 100%;
     max-width: 98vw;
     display: flex;
+    flex-wrap: wrap;
     flex-direction: column;
     gap: 20px;
 }
 
 .question--text{
     color: #293264;
+    max-width: 600px;
 }
 
 .question--answers{
     display: flex;
-    gap: 50px
+    flex-wrap: wrap;
+    gap: 50px;
 }
 
 .question--answer-button{
@@ -112,6 +122,7 @@ body {
     border-color: #D6DBF5;
     background-color: #D6DBF5;
     transition: all 0.3s ease ;
+    cursor: pointer;
 }
 
 .question--answer-button:active{
@@ -120,13 +131,11 @@ body {
     background-color: #677bec;
 }
 
-.button-selected{
+.answer-selected{
     transition: all 0s ease 0.3s;
     border-color: #D6DBF5;
     background-color: #D6DBF5;
 }
-
-
 
 @keyframes movebg {
     from {background-position: right -50px top -50px, left bottom ;} 
