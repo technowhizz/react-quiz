@@ -49,9 +49,7 @@ body {
    
 }
 
-.app--submit{
-    margin-top: 25px;
-    padding: 20px 30px;
+.app--submit, .app--start-again{
     background-color: #4D5B9E;
     font-family: 'Inter',sans-serif;
     border: 0px;
@@ -60,6 +58,23 @@ body {
     box-shadow: 2px 4px 2px 1px #888888;
     cursor: pointer;
 
+}
+
+.app--start-again {
+    margin: 0;
+    padding: 15px 25px;
+}
+
+.app--submit{
+    margin-top: 25px;
+    padding: 20px 30px;
+}
+
+.app--score-button-container{
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 40px
 }
 
 .quizmode {
@@ -94,11 +109,11 @@ body {
 
 }
 
-.welcome--button:hover, .app--submit:hover{
+.welcome--button:hover, .app--submit:hover, .app--start-again:hover{
     box-shadow: none;
 }
 
-.welcome--button:active, .app--submit:active{
+.welcome--button:active, .app--submit:active, .app--start-again:active{
     box-shadow: inset 0px 0px 10px #c1c1c1;
 }
 
@@ -162,7 +177,12 @@ body {
 .answer-wrong{
     transition: all 1s ease;
     background-color: #F8BCBC !important;
-    border-color: #F8BCBC !important;
+    border-color: #F8BCBC !important;    
+}
+
+.answer-wrong, .answer-not-selected{
+    transition: all 1s ease;
+    opacity: 0.5;
 }
 
 @keyframes movebg {

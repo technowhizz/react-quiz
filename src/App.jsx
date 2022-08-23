@@ -11,10 +11,11 @@ export default function App(){
     const [questionObjects, setQuestionObjects] = React.useState()
     const [questionElements, setQuestionElements] = React.useState()
     const [score, setScore] = React.useState(0)
+    const [over, setOver] = React.useState(false)
 
 
     React.useEffect(() => {
-        fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=medium&type=multiple")
+        fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=easy&type=multiple")
             .then(response => response.json())
             .then(responseData => setQuestions(responseData.results))
     }, [])
@@ -102,11 +103,14 @@ export default function App(){
 
     function checkAnswers(){
         setQuestionObjects(oldObjs => {
+            setOver(true)
             let count = 0
             const newObjs = oldObjs.map((obj)=> {
                 const newAnswers = obj.answers.map(ans=>{
                     if(ans.value === obj.answer){
-                        count ++
+                        if (ans.isSelected){
+                            count ++
+                        }
                         return({
                             ...ans,
                             isCorrect: true
@@ -128,13 +132,20 @@ export default function App(){
         })
     }
 
+    function reset(){
+        
+    }
+
     return(
         <div className={`app${welcome?"":" quizmode"}`}>
             <div className="app--container">
                 {welcome && <Welcome click={startClick} />}
                 {!welcome && questionElements}
-                {!welcome && <button className="app--submit" onClick={checkAnswers}>Check Answers</button>}
-
+                {!welcome && !over && <button className="app--submit" onClick={checkAnswers}>Check Answers</button>}
+                {!welcome && over && <div className="app--score-button-container">
+                    <h3 className="app--score-text">{`You scored ${score}/5 correct answers`}</h3>
+                    <button className="app--start-again" onClick={reset}>Play Again</button>
+                    </div>}
             </div>
         </div>
     )
