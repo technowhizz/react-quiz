@@ -84,6 +84,7 @@ body {
 }
 
 .welcome{
+    max-width: 100%;
     padding: 20px;
     gap: 15px;
     display: flex;
@@ -193,4 +194,33 @@ body {
 @-webkit-keyframes movebg {
     from {background-position: right -50px top -50px, left bottom ;} 
     to {background-position: right -125px top -125px, left -100px bottom -100px !important;}
+}
+
+
+@media screen and (max-width: 768px){
+    .app{
+        min-width: auto;
+    }
+    .welcome{
+        text-align: center;
+    }
+
+    .question--answers{
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 1fr 1fr;
+        gap: 20px;
+    }
+
+    .app--score-button-container{
+        gap: 0px;
+        margin-bottom: 10px;
+    }
+
+    .app--score-text{
+        width: max-content;
+        padding: 0;     
+    }
+
+
 }
