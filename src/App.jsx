@@ -133,7 +133,7 @@ export default function App(){
             <div className="app--container">
                 {welcome && <Welcome click={startClick} />}
                 {!welcome && questionElements}
-                {!welcome && <button onClick={checkAnswers}>Submit</button>}
+                {!welcome && <button className="app--submit" onClick={checkAnswers}>Check Answers</button>}
 
             </div>
         </div>
