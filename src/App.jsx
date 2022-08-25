@@ -4,6 +4,7 @@ import Question from "./components/Question"
 import he from "he"
 import { nanoid } from "nanoid"
 import ReactConfetti from "react-confetti"
+import ReactLoading from "react-loading"
 
 export default function App(){
 
@@ -16,6 +17,7 @@ export default function App(){
     const [resetVal, setResetVal] = React.useState(false)
     const [token, setToken] = React.useState()
     const [tokenReset, setTokenReset] = React.useState(false)
+    const [loading, setLoading] = React.useState(false)
 
     React.useEffect(() => {
         if (questions){
@@ -51,6 +53,7 @@ export default function App(){
             fetch(`https://opentdb.com/api.php?amount=5&category=9&difficulty=medium&type=multiple&token=${token}`)
                 .then(response => response.json())
                 .then(responseData => {
+                    setLoading(false)
                     setQuestions(responseData)})
         }
     }, [resetVal, token, tokenReset])
@@ -175,6 +178,7 @@ export default function App(){
         setOver(false)
         setScore(0)
         setResetVal(old => !old)
+        setLoading(true)
     }
 
     var body = document.body,html = document.documentElement;
@@ -184,9 +188,10 @@ export default function App(){
     return(
         <div className={`app${welcome?"":" quizmode"}`}>
             <div className="app--container">
+                {loading && <ReactLoading className="app--loading" type="spin" color="#677bec" /> }
                 {welcome && <Welcome click={startClick} />}
-                {!welcome && questionElements}
-                {!welcome && !over && <button className="app--submit" onClick={checkAnswers}>Check Answers</button>}
+                {!welcome && !loading && questionElements}
+                {!welcome && !over && !loading && <button className="app--submit" onClick={checkAnswers}>Check Answers</button>}
                 {!welcome && over && <div className="app--score-button-container">
                     {score >5 ? <ReactConfetti height={height}/>:null}
                     <h3 className="app--score-text">{`You scored ${score}/5 correct answers`}</h3>
