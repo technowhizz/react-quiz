@@ -77,6 +77,16 @@ body {
     gap: 40px
 }
 
+.app--confetti{
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100vw;
+    z-index: 50;
+}
+
 .quizmode {
     animation: movebg 1s linear;
     -webkit-animation: movebg 1s linear;
@@ -170,7 +180,7 @@ body {
 }
 
 .answer-correct{
-    transition: all 1s ease 1s;
+    transition: all 1s ease 0.4s;
     background-color: #94D7A2 !important;
     border-color: #94D7A2 !important;
 }

@@ -14,17 +14,50 @@ export default function App(){
     const [score, setScore] = React.useState(0)
     const [over, setOver] = React.useState(false)
     const [resetVal, setResetVal] = React.useState(false)
-
+    const [token, setToken] = React.useState()
+    const [tokenReset, setTokenReset] = React.useState(false)
 
     React.useEffect(() => {
-        fetch("https://opentdb.com/api.php?amount=5&category=9&difficulty=medium&type=multiple")
-            .then(response => response.json())
-            .then(responseData => setQuestions(responseData.results))
-    }, [resetVal])
+        if (questions){
+            if (questions.response_code == 4){
+                resetToken()
+            }
+        }
+
+    }, [questions])
+
+    React.useEffect(() => { 
+        const now = new Date()
+        const localToken = JSON.parse(localStorage.getItem("quizToken")) || false
+        if (localToken && (now.getTime() < parseInt(localToken.expiry) - 300000)){
+            setToken(localToken.token)
+        }else{
+            fetch("https://opentdb.com/api_token.php?command=request")
+                .then(response => response.json())
+                .then(data => {
+                    const remoteToken = data.token
+                    const tokenObject = {
+                        token: data.token,
+                        expiry: now.getTime() + 21600000
+                    }
+                    localStorage.setItem("quizToken", JSON.stringify(tokenObject))
+                    setToken(remoteToken)
+                })
+        }
+    }, [])
+
+    React.useEffect(() => {
+        if (token){
+            fetch(`https://opentdb.com/api.php?amount=5&category=9&difficulty=medium&type=multiple&token=${token}`)
+                .then(response => response.json())
+                .then(responseData => {
+                    setQuestions(responseData)})
+        }
+    }, [resetVal, token, tokenReset])
 
     React.useEffect(() => {
         if (questions !== undefined){
-            const questionsArray = questions.map(obj => {
+            const questionsArray = questions.results.map(obj => {
                 const correctAnswer = he.decode(obj.correct_answer)
                 const incorrectAnswers = obj.incorrect_answers.map(x => he.decode(x))
                 let answers = [correctAnswer, ...incorrectAnswers]
@@ -46,7 +79,6 @@ export default function App(){
                 return(questionObj)
                 
             })
-            console.log(questionsArray)
             setQuestionObjects(questionsArray)
         } 
     }, [questions])
@@ -134,11 +166,20 @@ export default function App(){
         })
     }
 
+    function resetToken(){
+        fetch(`https://opentdb.com/api_token.php?command=reset&token=${token}`)
+        setTokenReset(old => !old)
+    }
+
     function reset(){
         setOver(false)
         setScore(0)
         setResetVal(old => !old)
     }
+
+    var body = document.body,html = document.documentElement;
+    var height = Math.max( body.scrollHeight, body.offsetHeight, 
+                       html.clientHeight, html.scrollHeight, html.offsetHeight );
 
     return(
         <div className={`app${welcome?"":" quizmode"}`}>
@@ -147,7 +188,7 @@ export default function App(){
                 {!welcome && questionElements}
                 {!welcome && !over && <button className="app--submit" onClick={checkAnswers}>Check Answers</button>}
                 {!welcome && over && <div className="app--score-button-container">
-                    {score === 5? <ReactConfetti/>:null}
+                    {score >0 ? <ReactConfetti height={height}/>:null}
                     <h3 className="app--score-text">{`You scored ${score}/5 correct answers`}</h3>
                     <button className="app--start-again" onClick={reset}>Play Again</button>
                     </div>}
