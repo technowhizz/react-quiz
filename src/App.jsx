@@ -188,7 +188,7 @@ export default function App(){
                 {!welcome && questionElements}
                 {!welcome && !over && <button className="app--submit" onClick={checkAnswers}>Check Answers</button>}
                 {!welcome && over && <div className="app--score-button-container">
-                    {score >0 ? <ReactConfetti height={height}/>:null}
+                    {score >5 ? <ReactConfetti height={height}/>:null}
                     <h3 className="app--score-text">{`You scored ${score}/5 correct answers`}</h3>
                     <button className="app--start-again" onClick={reset}>Play Again</button>
                     </div>}
