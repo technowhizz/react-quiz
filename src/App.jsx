@@ -5,8 +5,11 @@ import he from "he"
 import { nanoid } from "nanoid"
 import ReactConfetti from "react-confetti"
 import ReactLoading from "react-loading"
+import DiffModal from "./components/DiffModal"
 
 export default function App(){
+
+    const difficulties = ["easy","medium","hard"]
 
     const [welcome, setWelcome] = React.useState(true)
     const [questions, setQuestions] = React.useState()
@@ -18,7 +21,11 @@ export default function App(){
     const [token, setToken] = React.useState()
     const [tokenReset, setTokenReset] = React.useState(false)
     const [loading, setLoading] = React.useState(false)
+    const [difficulty, setDifficulty] = React.useState("medium")
+    const [showModal, setShowModal] = React.useState(false)
+    const [difficultyObjs, setDifficultyObjs] = React.useState(setModalDiff(difficulty))
 
+    
     React.useEffect(() => {
         if (questions){
             if (questions.response_code == 4){
@@ -50,7 +57,7 @@ export default function App(){
 
     React.useEffect(() => {
         if (token){
-            fetch(`https://opentdb.com/api.php?amount=5&category=9&difficulty=medium&type=multiple&token=${token}`)
+            fetch(`https://opentdb.com/api.php?amount=5&category=9&difficulty=${difficulty}&type=multiple&token=${token}`)
                 .then(response => response.json())
                 .then(responseData => {
                     setLoading(false)
@@ -97,6 +104,7 @@ export default function App(){
             setQuestionElements(abc)
         }
     },[questionObjects])
+
 
     function handleClick(event, id){
         setQuestionObjects((questionObjects) => {
@@ -174,11 +182,31 @@ export default function App(){
         setTokenReset(old => !old)
     }
 
+
+    function closeModal(){
+        setShowModal(false)
+        const newDiff = difficultyObjs.filter(obj => obj.isSelected)[0].value
+        if (newDiff !== difficulty){
+            setDifficulty(newDiff)
+            reset()
+        }
+    }
+
     function reset(){
         setOver(false)
         setScore(0)
         setResetVal(old => !old)
         setLoading(true)
+    }
+
+    function setModalDiff(diff){
+        const newDiffObjs = difficulties.map(item => {
+            return({
+                value: item,
+                isSelected: diff === item? true:false
+                })
+            })
+        return(newDiffObjs)
     }
 
     var body = document.body,html = document.documentElement;
@@ -188,12 +216,20 @@ export default function App(){
     return(
         <div className={`app${welcome?"":" quizmode"}`}>
             <div className="app--container">
+                <DiffModal 
+                show={showModal} 
+                close={closeModal} 
+                diffs={difficultyObjs} 
+                modalChoose={setModalDiff}
+                sm={setDifficultyObjs}
+                />
+                {!loading && !welcome && <button className="app--difficulty" onClick={() => setShowModal(true)}>Change difficulty?</button>}
                 {loading && <ReactLoading className="app--loading" type="spin" color="#677bec" /> }
                 {welcome && <Welcome click={startClick} />}
                 {!welcome && !loading && questionElements}
                 {!welcome && !over && !loading && <button className="app--submit" onClick={checkAnswers}>Check Answers</button>}
                 {!welcome && over && <div className="app--score-button-container">
-                    {score >5 ? <ReactConfetti height={height}/>:null}
+                    {score == 5 ? <ReactConfetti height={height}/>:null}
                     <h3 className="app--score-text">{`You scored ${score}/5 correct answers`}</h3>
                     <button className="app--start-again" onClick={reset}>Play Again</button>
                     </div>}

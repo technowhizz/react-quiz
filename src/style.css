@@ -49,7 +49,7 @@ body {
    
 }
 
-.app--submit, .app--start-again{
+.app--submit, .app--start-again, .app--difficulty, .modal--button{
     background-color: #4D5B9E;
     font-family: 'Inter',sans-serif;
     border: 0px;
@@ -63,6 +63,13 @@ body {
 .app--start-again {
     margin: 0;
     padding: 15px 25px;
+}
+
+.app--difficulty{
+    margin-bottom: 10px;
+    padding: 5px 10px;
+    align-self: flex-end;
+    margin-right: 10px;
 }
 
 .app--submit{
@@ -89,8 +96,8 @@ body {
 
 .app--loading{
     position: absolute;
-    margin-top: -50px;
-    margin-left: -30px;
+    margin-top: -32px;
+    margin-left: -32px;
     top: 50%;
     left: 50%;
 }
@@ -128,11 +135,11 @@ body {
 
 }
 
-.welcome--button:hover, .app--submit:hover, .app--start-again:hover{
+.welcome--button:hover, .app--submit:hover, .app--start-again:hover, .app--difficulty:hover, .modal--button:hover{
     box-shadow: none;
 }
 
-.welcome--button:active, .app--submit:active, .app--start-again:active{
+.welcome--button:active, .app--submit:active, .app--start-again:active, .app--difficulty:active, .modal--button:active{
     box-shadow: inset 0px 0px 10px #c1c1c1;
 }
 
@@ -203,6 +210,56 @@ body {
     transition: all 1s ease;
     opacity: 0.5;
 }
+
+.modal-bg{
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    left: 0px;
+    bottom:0px;
+    background-color: rgba(0,0,0,0.25);
+}
+
+.modal{
+    position: absolute;
+    margin-left: -155px;
+    margin-top: -75px;
+    min-height: 200px;
+    min-width: 310px;
+    top:50%;
+    left: 50%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 25px;
+    border-radius: 15px;
+    box-shadow: 2px 4px 2px 1px #888888;
+}
+
+.modal--buttons{
+    display: flex;
+    width: 75%;
+    flex-direction: row;
+    justify-content: space-between;
+    
+}
+
+.modal-selected{
+    background-color: #16b138;
+}
+
+.modal-save{
+    width: 75%;
+    margin-bottom: 5px;
+
+}
+
+.modal--button{
+    padding: 13px 10px;
+}
+
 
 @keyframes movebg {
     from {background-position: right -50px top -50px, left bottom ;} 
